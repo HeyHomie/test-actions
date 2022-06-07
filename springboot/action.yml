@@ -25,5 +25,5 @@ runs:
     uses: gradle/wrapper-validation-action@v1.0.4
   - name: Gradle Build Action
     uses: gradle/gradle-build-action@v2.2.0
-  - name: Execute Gradle build
-    run: ./gradlew build
+#  - name: Execute Gradle build
+#    run: ./gradlew build
