@@ -11,7 +11,7 @@ inputs:
     description: Build Context, aka workdir
     required: true
 runs:
-  using: "composite"
+  using: composite
   steps:
   - uses: actions/checkout@v3
   - name: Set up JDK 17
@@ -21,9 +21,9 @@ runs:
       distribution: adopt
       cache: gradle
       check-latest: true
-  - name: Validate Gradle wrapper
-    uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
-  - name: Build with Gradle
-    uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
-    with:
-      arguments: build
+  - name: Gradle Wrapper Validation
+    uses: gradle/wrapper-validation-action@v1.0.4
+  - name: Gradle Build Action
+    uses: gradle/gradle-build-action@v2.2.0
+  - name: Execute Gradle build
+    run: ./gradlew build
