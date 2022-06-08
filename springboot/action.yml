@@ -1,23 +1,30 @@
-name: Java 17 gradle build
-description: Java 17 gradle build
+name: Java gradle build
+description: Java gradle build
 inputs:
-  project:
-    description: Project name
+  java-version:
+    description: java version
+    required: false
+    default: 17
+  java-distribution:
+    description: java distribution
     required: true
-  github-token:
-    description: Checkout github token
-    required: true
-  context:
-    description: Build Context, aka workdir
-    required: true
+    default: adopt
+  gradle-wrapper-path:
+    description: gradle wrapper executable path
+    required: false
+    default: ./gradlew
+  gradle-build-command:
+    description: gradle build command
+    required: false
+    default: assemble
 runs:
   using: composite
   steps:
-  - name: Set up JDK 17
+  - name: Set up JDK ${{ inputs.java-version }}
     uses: actions/setup-java@v3.3.0
     with:
-      java-version: '17'
-      distribution: adopt
+      java-version: ${{ inputs.java-version }}
+      distribution: ${{ inputs.java-distribution }}
       cache: gradle
       check-latest: true
   - name: Gradle Wrapper Validation
@@ -26,7 +33,7 @@ runs:
     uses: gradle/gradle-build-action@v2.2.0
   - name: Make gradlew executable
     shell: bash
-    run: chmod +x ./gradlew
+    run: chmod +x ${{ inputs.gradle-wrapper-path }}
   - name: Execute Gradle build with wrapper
     shell: bash
-    run: ./gradlew build
+    run: ${{ inputs.gradle-wrapper-path }} ${{ inputs.gradle-build-command }}
