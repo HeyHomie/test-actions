@@ -24,6 +24,8 @@ runs:
     uses: gradle/wrapper-validation-action@v1.0.4
   - name: Setup Gradle
     uses: gradle/gradle-build-action@v2.2.0
+  - name: Make gradlew executable
+    run: chmod +x ./gradlew
   - name: Execute Gradle build with wrapper
     shell: bash
     run: ./gradlew build
