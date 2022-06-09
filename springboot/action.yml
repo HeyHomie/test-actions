@@ -1,5 +1,5 @@
-name: Java gradle build
-description: Java gradle build
+name: Java build
+description: Java build
 inputs:
   java-version:
     description: java version
@@ -9,14 +9,22 @@ inputs:
     description: java distribution
     required: true
     default: adopt
-  gradle-wrapper-path:
-    description: gradle wrapper executable path
+  wrapper-path:
+    description: wrapper executable path
     required: false
     default: ./gradlew
-  gradle-build-command:
+  build-command:
     description: gradle build command
     required: false
     default: assemble
+  cache-type:
+    description: cache type
+    required: false
+    default: gradle
+  wrapper-type:
+    description: wrapper type
+    required: false
+    default: gradle  
 runs:
   using: composite
   steps:
@@ -25,15 +33,14 @@ runs:
     with:
       java-version: ${{ inputs.java-version }}
       distribution: ${{ inputs.java-distribution }}
-      cache: gradle
+      cache: ${{ inputs.cache-type }}
       check-latest: true
+  - if: ${{ inputs.wrapper-type }} == 'gradle'  
   - name: Gradle Wrapper Validation
     uses: gradle/wrapper-validation-action@v1.0.4
-  - name: Setup Gradle
-    uses: gradle/gradle-build-action@v2.2.0
-  - name: Make gradlew executable
+  - name: Setup Wrapper    
     shell: bash
-    run: chmod +x ${{ inputs.gradle-wrapper-path }}
-  - name: Execute Gradle build with wrapper
+    run: chmod +x ${{ inputs.wrapper-path }}
+  - name: Execute build with wrapper
     shell: bash
-    run: ${{ inputs.gradle-wrapper-path }} ${{ inputs.gradle-build-command }}
+    run: ${{ inputs.wrapper-path }} ${{ inputs.build-command }}
