@@ -35,9 +35,9 @@ runs:
       distribution: ${{ inputs.java-distribution }}
       cache: ${{ inputs.cache-type }}
       check-latest: true
-  - if: ${{ inputs.wrapper-type }} == 'gradle'  
   - name: Gradle Wrapper Validation
     uses: gradle/wrapper-validation-action@v1.0.4
+    if: ${{ inputs.wrapper-type }} == 'gradle'  
   - name: Setup Wrapper    
     shell: bash
     run: chmod +x ${{ inputs.wrapper-path }}
