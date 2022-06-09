@@ -24,7 +24,7 @@ inputs:
   wrapper-type:
     description: wrapper type
     required: false
-    default: gradle  
+    default: 'gradle'  
 runs:
   using: composite
   steps:
